@@ -24,10 +24,10 @@ export default function LoginPage() {
     setIsSubmitting(true);
 
     try {
-      const data = await login({ email, password });
+      const data = await login({ email: email.trim(), password });
       navigate(landingPageFor(data.user.role), { replace: true });
     } catch (loginError) {
-      setError(loginError.message || 'Unable to sign in. Please try again.');
+      setError(loginError.status ? loginError.message : 'Unable to connect. Check your connection and try again.');
     } finally {
       setIsSubmitting(false);
     }
