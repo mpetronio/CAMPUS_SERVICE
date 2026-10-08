@@ -17,6 +17,7 @@ const userSchema = new mongoose.Schema(
       trim: true,
       lowercase: true,
       maxlength: 254,
+      match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
     },
     passwordHash: {
       type: String,
@@ -26,6 +27,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       enum: [STUDENT_ROLE, STAFF_ROLE],
+      required: true,
       default: STUDENT_ROLE,
       lowercase: true,
     },

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { updateRequestStatus } from '../../api/requestsApi.js';
-import { STAFF_STATUS_LABELS } from './StaffRequestTable.jsx';
+import { STAFF_STATUS_LABELS } from './status.js';
 
 // Contract Section 5: staff-only status transitions.
-export const STATUS_TRANSITIONS = {
+const STATUS_TRANSITIONS = {
   submitted: ['in_progress', 'rejected'],
   in_progress: ['resolved', 'rejected'],
   resolved: [],

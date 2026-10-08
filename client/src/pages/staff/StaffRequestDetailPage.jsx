@@ -4,7 +4,8 @@ import { getRequestById } from '../../api/requestsApi.js';
 import LoadingSpinner from '../../components/LoadingSpinner.jsx';
 import ErrorMessage from '../../components/ErrorMessage.jsx';
 import RequestStatusControl from './RequestStatusControl.jsx';
-import { STAFF_STATUS_LABELS } from './StaffRequestTable.jsx';
+import { STAFF_STATUS_LABELS } from './status.js';
+import './staff.css';
 
 const DATE_FORMATTER = new Intl.DateTimeFormat(undefined, {
   dateStyle: 'full',

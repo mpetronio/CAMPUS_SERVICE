@@ -5,18 +5,8 @@ import Layout from './components/Layout.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
-
-
-
-
-
-function StaffDashboardPlaceholder() {
-  return <h1>Staff Dashboard</h1>;
-}
-
-function StaffRequestDetailPlaceholder() {
-  return <h1>Request Details</h1>;
-}
+import StaffDashboardPage from './pages/staff/StaffDashboardPage.jsx';
+import StaffRequestDetailPage from './pages/staff/StaffRequestDetailPage.jsx';
 
 export default function App() {
   return (
@@ -30,7 +20,6 @@ export default function App() {
             path="/student/requests"
             element={
               <ProtectedRoute allowedRoles={['student']}>
-                {/* STU-FE-03 replaces this placeholder with StudentRequestsPage. */}
                 <StudentRequestsPage />
               </ProtectedRoute>
             }
@@ -39,7 +28,6 @@ export default function App() {
             path="/student/requests/new"
             element={
               <ProtectedRoute allowedRoles={['student']}>
-                {/* STU-FE-02 replaces this placeholder with CreateRequestPage. */}
                 <CreateRequestPage />
               </ProtectedRoute>
             }
@@ -48,8 +36,7 @@ export default function App() {
             path="/staff/requests"
             element={
               <ProtectedRoute allowedRoles={['staff']}>
-                {/* STAFF-FE-01 replaces this placeholder with StaffDashboardPage. */}
-                <StaffDashboardPlaceholder />
+                <StaffDashboardPage />
               </ProtectedRoute>
             }
           />
@@ -57,8 +44,7 @@ export default function App() {
             path="/staff/requests/:id"
             element={
               <ProtectedRoute allowedRoles={['staff']}>
-                {/* STAFF-FE-04 replaces this with StaffRequestDetailPage. */}
-                <StaffRequestDetailPlaceholder />
+                <StaffRequestDetailPage />
               </ProtectedRoute>
             }
           />

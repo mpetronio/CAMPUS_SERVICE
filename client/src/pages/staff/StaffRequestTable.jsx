@@ -2,12 +2,7 @@ import { Link } from 'react-router-dom';
 import LoadingSpinner from '../../components/LoadingSpinner.jsx';
 import ErrorMessage from '../../components/ErrorMessage.jsx';
 
-export const STAFF_STATUS_LABELS = {
-  submitted: 'Pending',
-  in_progress: 'In Progress',
-  resolved: 'Resolved',
-  rejected: 'Rejected',
-};
+import { STAFF_STATUS_LABELS } from './status.js';
 
 const DATE_FORMATTER = new Intl.DateTimeFormat(undefined, {
   dateStyle: 'medium',
@@ -25,7 +20,7 @@ const DATE_FORMATTER = new Intl.DateTimeFormat(undefined, {
  *   onRetry   {function}    re-fetch handler for the error state
  */
 export default function StaffRequestTable({ requests, isLoading, error, onRetry }) {
-  if (isLoading || requests === null) {
+  if (isLoading) {
     return <LoadingSpinner label="Loading requests…" />;
   }
 

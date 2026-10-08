@@ -3,6 +3,7 @@ import ServiceCategory from '../models/ServiceCategory.js';
 import { ApiError } from '../utils/ApiError.js';
 import { asyncHandler } from '../middleware/asyncHandler.js';
 import { serializeRequest } from '../utils/serializers.js';
+import { parseRequestFilters } from '../utils/filters.js';
 
 export const createRequest = asyncHandler(async (req, res) => {
   const { categoryId, title, description, location } = req.body;
@@ -40,7 +41,7 @@ const POPULATE = [
 
 export const getRequests = asyncHandler(async (req, res) => {
   // Students only ever see their own requests, whatever the query says
-  const filter = req.user.role === 'student' ? { student: req.user._id } : {};
+  const filter = { ...parseRequestFilters(req.query), ...(req.user.role === 'student' ? { student: req.user._id } : {}) };
 
   const requests = await ServiceRequest.find(filter)
     .populate(POPULATE)
@@ -93,9 +94,11 @@ export const updateRequestStatus = asyncHandler(async (req, res) => {
     );
   }
 
-  request.status = status; // only status is modified
-  await request.save();
-  await request.populate(POPULATE);
-
-  res.status(200).json({ success: true, data: serializeRequest(request) });
+  const updated = await ServiceRequest.findOneAndUpdate(
+    { _id: request._id, status: request.status },
+    { $set: { status } },
+    { new: true, runValidators: true }
+  ).populate(POPULATE);
+  if (!updated) throw new ApiError(409, 'INVALID_STATUS_TRANSITION', 'Status changed. Refresh and try again.');
+  res.status(200).json({ success: true, data: serializeRequest(updated) });
 });

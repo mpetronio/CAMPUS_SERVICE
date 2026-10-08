@@ -11,7 +11,9 @@ function readStoredUser() {
   }
 
   try {
-    return JSON.parse(storedUser);
+    const user = JSON.parse(storedUser);
+    if (!user || !['student', 'staff'].includes(user.role)) throw new Error('Invalid stored user.');
+    return user;
   } catch {
     localStorage.removeItem('csr_user');
     localStorage.removeItem('csr_token');

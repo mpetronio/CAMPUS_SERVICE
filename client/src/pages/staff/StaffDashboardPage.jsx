@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { getRequests } from '../../api/requestsApi.js';
 import LoadingSpinner from '../../components/LoadingSpinner.jsx';
 import ErrorMessage from '../../components/ErrorMessage.jsx';
+import StaffRequestTable from './StaffRequestTable.jsx';
+import { getCategories } from '../../api/categoriesApi.js';
+import './staff.css';
 
 const STATUS_LABELS = {
   submitted: 'Pending',
@@ -19,15 +22,25 @@ const DATE_FORMATTER = new Intl.DateTimeFormat(undefined, {
 export default function StaffDashboardPage() {
   const [requests, setRequests] = useState(null);
   const [error, setError] = useState(null);
+  const [filters, setFilters] = useState({ status: '', categoryId: '' });
+  const [categories, setCategories] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const loadRequests = useCallback(async () => {
     setError(null);
+    setIsLoading(true);
     try {
-      const data = await getRequests();
+      const data = await getRequests(filters);
       setRequests(data);
     } catch (err) {
       setError(err);
+    } finally {
+      setIsLoading(false);
     }
+  }, [filters]);
+
+  useEffect(() => {
+    getCategories().then(setCategories).catch(setError);
   }, []);
 
   useEffect(() => {
@@ -75,6 +88,18 @@ export default function StaffDashboardPage() {
           Overview of all campus service requests.
         </p>
       </header>
+
+      <div className="staff-filters">
+        <label>Status <select value={filters.status} onChange={(event) => setFilters({ ...filters, status: event.target.value })}>
+          <option value="">All statuses</option>
+          {Object.entries(STATUS_LABELS).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+        </select></label>
+        <label>Category <select value={filters.categoryId} onChange={(event) => setFilters({ ...filters, categoryId: event.target.value })}>
+          <option value="">All categories</option>
+          {categories.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}
+        </select></label>
+      </div>
+      <StaffRequestTable requests={requests} isLoading={isLoading} error={error} onRetry={loadRequests} />
 
       <div className="staff-overview" role="list" aria-label="Request overview">
         <div className="staff-overview__card" role="listitem">
