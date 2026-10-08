@@ -1,11 +1,14 @@
 import mongoose from 'mongoose';
+import { STAFF_ROLE, STUDENT_ROLE } from '../utils/userRoles.js';
 
 const userSchema = new mongoose.Schema(
   {
-    fullName: {
+    name: {
       type: String,
       required: true,
       trim: true,
+      minlength: 2,
+      maxlength: 80,
     },
     email: {
       type: String,
@@ -13,16 +16,17 @@ const userSchema = new mongoose.Schema(
       unique: true,
       trim: true,
       lowercase: true,
+      maxlength: 254,
     },
-    password: {
+    passwordHash: {
       type: String,
       required: true,
       select: false,
     },
     role: {
       type: String,
-      enum: ['student', 'staff'],
-      default: 'student',
+      enum: [STUDENT_ROLE, STAFF_ROLE],
+      default: STUDENT_ROLE,
       lowercase: true,
     },
   },
