@@ -30,3 +30,42 @@ export const createRequest = asyncHandler(async (req, res) => {
 
   res.status(201).json({ success: true, data: serializeRequest(created) });
 });
+
+const OBJECT_ID = /^[0-9a-fA-F]{24}$/;
+
+const POPULATE = [
+  { path: 'student', select: 'name email' },
+  { path: 'category', select: 'name' },
+];
+
+export const getRequests = asyncHandler(async (req, res) => {
+  // Students only ever see their own requests, whatever the query says
+  const filter = req.user.role === 'student' ? { student: req.user._id } : {};
+
+  const requests = await ServiceRequest.find(filter)
+    .populate(POPULATE)
+    .sort({ createdAt: -1 });
+
+  res.status(200).json({ success: true, data: requests.map(serializeRequest) });
+});
+
+export const getRequestById = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  if (!OBJECT_ID.test(id)) {
+    throw new ApiError(400, 'VALIDATION_ERROR', 'Validation failed', [
+      { field: 'id', message: 'id must be a valid ID' },
+    ]);
+  }
+
+  const request = await ServiceRequest.findById(id).populate(POPULATE);
+  if (!request) {
+    throw new ApiError(404, 'NOT_FOUND', 'Request not found');
+  }
+
+  const isOwner = request.student && String(request.student._id) === String(req.user._id);
+  if (req.user.role === 'student' && !isOwner) {
+    throw new ApiError(403, 'FORBIDDEN', 'You cannot view this request');
+  }
+
+  res.status(200).json({ success: true, data: serializeRequest(request) });
+});
