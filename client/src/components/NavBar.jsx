@@ -39,7 +39,11 @@ export default function NavBar() {
               {link.label}
             </NavLink>
           ))}
-          <button className="site-nav__logout" onClick={handleLogout} type="button">
+          <button
+            className="site-nav__logout"
+            onClick={handleLogout}
+            type="button"
+          >
             Logout
           </button>
         </div>
