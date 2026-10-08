@@ -1,0 +1,22 @@
+.student-page { max-width: 54rem; margin: auto; }
+.student-heading { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.student-page button, .student-action { background: #2356a8; color: white; border: 0; border-radius: .4rem; padding: .75rem 1rem; font: inherit; cursor: pointer; text-decoration: none; }
+.student-page button:disabled { opacity: .6; cursor: wait; }
+.student-form, .request-card { background: white; border: 1px solid #dce2ec; border-radius: .75rem; padding: 1.5rem; margin-top: 1rem; }
+.student-form { display: grid; gap: .65rem; }
+.student-form input, .student-form select, .student-form textarea { width: 100%; padding: .75rem; border: 1px solid #aeb9ca; border-radius: .4rem; font: inherit; }
+.student-form textarea { min-height: 9rem; resize: vertical; }
+.student-form fieldset { display: grid; gap: .65rem; border: 0; padding: 0; margin: 0; min-width: 0; }
+.student-error { color: #8f1d15; background: #fff1f0; padding: 1rem; border-left: 4px solid #b42318; }
+.request-list { list-style: none; padding: 0; }
+.request-card h2 { font-size: 1.15rem; margin: 0; overflow-wrap: anywhere; }
+.request-card p { overflow-wrap: anywhere; white-space: pre-wrap; }
+.request-card dl { display: grid; grid-template-columns: 6rem 1fr; gap: .5rem; }
+.request-card dd { margin: 0; overflow-wrap: anywhere; }
+.request-status { display: inline-block; border-radius: 1rem; padding: .3rem .7rem; font-size: .875rem; font-weight: 600; background: #e9edf3; }
+.request-status--submitted { background: #fff2c6; color: #684900; }
+.request-status--in_progress { background: #e2edff; color: #164387; }
+.request-status--resolved { background: #dcf5e5; color: #165a30; }
+.request-status--rejected { background: #ffe2df; color: #8f1d15; }
+.student-page :focus-visible { outline: 3px solid #2356a8; outline-offset: 3px; }
+@media (max-width: 40rem) { .student-form, .request-card { padding: 1rem; } }
