@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
+import LoadingSpinner from '../components/LoadingSpinner.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 
 function landingPageFor(role) {
@@ -67,7 +68,11 @@ export default function LoginPage() {
           />
 
           <button disabled={isSubmitting} type="submit">
-            {isSubmitting ? 'Signing in…' : 'Sign in'}
+            {isSubmitting ? (
+              <LoadingSpinner label="Signing in…" size="small" />
+            ) : (
+              'Sign in'
+            )}
           </button>
         </form>
       </section>
