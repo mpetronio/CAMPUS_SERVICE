@@ -1,3 +1,4 @@
+import StudentRequestsPage from './pages/student/StudentRequestsPage.jsx';
 import CreateRequestPage from './pages/student/CreateRequestPage.jsx';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout.jsx';
@@ -5,9 +6,7 @@ import ProtectedRoute from './components/ProtectedRoute.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 
-function StudentRequestsPlaceholder() {
-  return <h1>My Requests</h1>;
-}
+
 
 
 
@@ -32,7 +31,7 @@ export default function App() {
             element={
               <ProtectedRoute allowedRoles={['student']}>
                 {/* STU-FE-03 replaces this placeholder with StudentRequestsPage. */}
-                <StudentRequestsPlaceholder />
+                <StudentRequestsPage />
               </ProtectedRoute>
             }
           />
