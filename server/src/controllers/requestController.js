@@ -69,3 +69,33 @@ export const getRequestById = asyncHandler(async (req, res) => {
 
   res.status(200).json({ success: true, data: serializeRequest(request) });
 });
+
+const ALLOWED_TRANSITIONS = {
+  submitted: ['in_progress', 'rejected'],
+  in_progress: ['resolved', 'rejected'],
+  resolved: [],
+  rejected: [],
+};
+
+export const updateRequestStatus = asyncHandler(async (req, res) => {
+  const { status } = req.body;
+
+  const request = await ServiceRequest.findById(req.params.id);
+  if (!request) {
+    throw new ApiError(404, 'NOT_FOUND', 'Request not found');
+  }
+
+  if (!ALLOWED_TRANSITIONS[request.status].includes(status)) {
+    throw new ApiError(
+      400,
+      'INVALID_STATUS_TRANSITION',
+      `Cannot change status from ${request.status} to ${status}`
+    );
+  }
+
+  request.status = status; // only status is modified
+  await request.save();
+  await request.populate(POPULATE);
+
+  res.status(200).json({ success: true, data: serializeRequest(request) });
+});
