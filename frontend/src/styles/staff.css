@@ -1,0 +1,154 @@
+/* Staff pages — plain CSS, no UI framework. */
+
+.staff-page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+}
+
+.staff-page__header {
+  margin-bottom: 1.5rem;
+}
+
+.staff-page__header h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.75rem;
+}
+
+.staff-page__subtitle {
+  margin: 0;
+  color: #5b6472;
+}
+
+.staff-overview {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.staff-overview__card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid #d9dee5;
+  border-radius: 0.5rem;
+  background: #fff;
+}
+
+.staff-overview__value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.staff-overview__label {
+  font-size: 0.875rem;
+  color: #5b6472;
+}
+
+.staff-section__header {
+  margin-bottom: 0.75rem;
+}
+
+.staff-section__header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.staff-empty {
+  padding: 2rem;
+  text-align: center;
+  color: #5b6472;
+  border: 1px dashed #d9dee5;
+  border-radius: 0.5rem;
+}
+
+.staff-recent {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.staff-recent__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #d9dee5;
+  border-radius: 0.5rem;
+  background: #fff;
+}
+
+.staff-recent__main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.staff-recent__title {
+  font-weight: 600;
+  color: #1a56db;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.staff-recent__title:hover {
+  text-decoration: underline;
+}
+
+.staff-recent__meta {
+  font-size: 0.8125rem;
+  color: #5b6472;
+}
+
+.staff-status {
+  flex-shrink: 0;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.staff-status--submitted {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.staff-status--in_progress {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.staff-status--resolved {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.staff-status--rejected {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+:focus-visible {
+  outline: 2px solid #1a56db;
+  outline-offset: 2px;
+}
+
+@media (max-width: 720px) {
+  .staff-overview {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .staff-recent__item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
