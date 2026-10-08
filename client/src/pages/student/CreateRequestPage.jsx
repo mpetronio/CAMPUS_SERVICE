@@ -1,3 +1,4 @@
+import { useAuth } from '../../context/AuthContext.jsx';
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getCategories } from '../../api/categoriesApi.js';
@@ -11,6 +12,8 @@ export default function CreateRequestPage() {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [categoryError, setCategoryError] = useState('');
+  const { logout } = useAuth();
+  const [errorStatus, setErrorStatus] = useState(null);
   const [error, setError] = useState('');
   const [details, setDetails] = useState([]);
   const [saving, setSaving] = useState(false);
@@ -43,6 +46,7 @@ export default function CreateRequestPage() {
       await createRequest(payload);
       navigate('/student/requests', { replace: true, state: { requestCreated: true } });
     } catch (err) {
+      setErrorStatus(err.status);
       setError(requestError(err));
       setDetails(Array.isArray(err.details) ? err.details : []);
     } finally { submitting.current = false; setSaving(false); }
@@ -53,7 +57,7 @@ export default function CreateRequestPage() {
     {loading && <p role="status">Loading categories…</p>}
     {categoryError && <div className="student-error" role="alert"><p>{categoryError}</p><button onClick={() => setAttempt(attempt + 1)}>Retry categories</button></div>}
     {!loading && !categoryError && !categories.length && <p role="status">No service categories are available. Please try again later.</p>}
-    {error && <div className="student-error" role="alert"><p>{error}</p>{details.length > 0 && <ul>{details.map((detail, index) => <li key={index}>{detail.message}</li>)}</ul>}<Link to="/login">Sign in again</Link></div>}
+    {error && <div className="student-error" role="alert"><p>{error}</p>{details.length > 0 && <ul>{details.map((detail, index) => <li key={index}>{detail.message}</li>)}</ul>}{errorStatus === 401 && <button type="button" onClick={() => { logout(); navigate("/login"); }}>Sign in again</button>}</div>}
     <form className="student-form" onSubmit={submit} aria-busy={saving}>
       <fieldset disabled={saving}><legend>Request details</legend>
         <label htmlFor="categoryId">Category</label><select id="categoryId" name="categoryId" required value={fields.categoryId} onChange={change} disabled={loading || Boolean(categoryError) || !categories.length}><option value="">Choose a category</option>{categories.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}</select>
