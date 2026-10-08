@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
+import ErrorMessage from '../components/ErrorMessage.jsx';
 import LoadingSpinner from '../components/LoadingSpinner.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 
@@ -40,11 +41,7 @@ export default function LoginPage() {
         <h1 id="login-heading">Campus Service Request System</h1>
         <p>Sign in with your campus account.</p>
 
-        {error ? (
-          <p className="form-error" role="alert">
-            {error}
-          </p>
-        ) : null}
+        {error ? <ErrorMessage message={error} /> : null}
 
         <form className="auth-form" onSubmit={handleSubmit}>
           <label htmlFor="email">Email</label>

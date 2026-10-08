@@ -14,10 +14,19 @@ export async function apiFetch(path, options = {}) {
     headers.set('Authorization', `Bearer ${token}`);
   }
 
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    ...options,
-    headers,
-  });
+  let response;
+  try {
+    response = await fetch(`${API_BASE_URL}${path}`, {
+      ...options,
+      headers,
+    });
+  } catch {
+    const error = new Error('Unable to reach the service. Please try again.');
+    error.code = 'INTERNAL_ERROR';
+    error.status = 0;
+    error.details = undefined;
+    throw error;
+  }
 
   let payload;
   try {
